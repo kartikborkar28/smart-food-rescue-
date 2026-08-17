@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://localhost:8080/login.html? -->
+<html lang="en" data-theme="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - NourishNet Food Rescue</title>
+  <link rel="stylesheet" href="./Login - NourishNet Food Rescue_files/style.css">
+  <link rel="stylesheet" href="./Login - NourishNet Food Rescue_files/script.css">
+</head>
+<body>
+
+  <header class="site-header"></header>
+
+  <main class="auth-wrapper">
+    <div class="auth-card">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="brand-icon" style="margin: 0 auto 1rem; width: 48px; height: 48px;">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8M8 12h8"></path>
+          </svg>
+        </div>
+        <h2>Welcome Back</h2>
+        <p style="font-size: 0.9rem;">Sign in to your NourishNet account</p>
+      </div>
+
+      <!-- Role Selection Tabs -->
+      <div class="role-radio-group">
+        <div class="role-radio-card active" id="role-card-donor" onclick="selectRole(&#39;donor&#39;)">
+          <input type="radio" id="role-input-donor" name="role" value="donor" checked="">
+          <span class="role-icon">🧑‍🍳</span>
+          <span class="role-title">Food Donor</span>
+        </div>
+        <div class="role-radio-card" id="role-card-ngo" onclick="selectRole(&#39;ngo&#39;)">
+          <input type="radio" id="role-input-ngo" name="role" value="ngo">
+          <span class="role-icon">🤝</span>
+          <span class="role-title">NGO / Shelter</span>
+        </div>
+        <div class="role-radio-card" id="role-card-admin" onclick="selectRole(&#39;admin&#39;)">
+          <input type="radio" id="role-input-admin" name="role" value="admin">
+          <span class="role-icon">🛡️</span>
+          <span class="role-title">Admin</span>
+        </div>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email" id="login-email-label">Email Address</label>
+          <input type="email" id="login-email" class="form-input" required="" value="banquets@grandhyatt.com" fdprocessedid="nl7rk4">
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+            <a href="http://localhost:8080/login.html?#" style="font-size: 0.8rem; color: var(--primary);">Forgot Password?</a>
+          </div>
+          <input type="password" id="login-password" class="form-input" required="" value="password123" fdprocessedid="hfpslf">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top: 0.5rem;" id="login-submit-btn" fdprocessedid="ta4an9">
+          Sign In as Food Donor
+        </button>
+      </form>
+
+      <!-- Quick 1-Click Demo Accounts -->
+      <div class="demo-accounts">
+        <div class="demo-title">⚡ Instant 1-Click Demo Sign-in</div>
+        <div class="demo-btn-group">
+          <button type="button" class="demo-btn" id="demo-btn-donor" onclick="quickLogin(&#39;donor&#39;)" fdprocessedid="k4ipxi">🧑‍🍳 Donor</button>
+          <button type="button" class="demo-btn" id="demo-btn-ngo" onclick="quickLogin(&#39;ngo&#39;)" fdprocessedid="9ttcpw">🤝 NGO / Shelter</button>
+          <button type="button" class="demo-btn" id="demo-btn-admin" onclick="quickLogin(&#39;admin&#39;)" fdprocessedid="zshn2">🛡️ Admin</button>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-muted);">
+        Don't have an account yet? <a href="http://localhost:8080/register.html" style="color: var(--primary); font-weight: 600;">Register here</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="./Login - NourishNet Food Rescue_files/script.js.download"></script>
+  <script>
+    let currentSelectedRole = "donor";
+
+    const DEMO_CREDENTIALS = {
+      donor: {
+        name: "Grand Hyatt Banquet",
+        email: "banquets@grandhyatt.com",
+        password: "password123",
+        avatar: "GH",
+        btnLabel: "Sign In as Food Donor",
+        destination: "donor-dashboard.html"
+      },
+      ngo: {
+        name: "Hope Food Bank",
+        email: "sarah@hopefoodbank.org",
+        password: "password123",
+        avatar: "HF",
+        btnLabel: "Sign In as NGO / Shelter",
+        destination: "ngo-dashboard.html"
+      },
+      admin: {
+        name: "Platform Administrator",
+        email: "admin@nourishnet.org",
+        password: "password123",
+        avatar: "AD",
+        btnLabel: "Sign In as Administrator",
+        destination: "admin-dashboard.html"
+      }
+    };
+
+    function selectRole(role) {
+      currentSelectedRole = role;
+
+      // Update UI cards
+      document.querySelectorAll(".role-radio-card").forEach(card => card.classList.remove("active"));
+      const targetCard = document.getElementById(`role-card-${role}`);
+      if (targetCard) targetCard.classList.add("active");
+
+      // Update radio input state
+      const targetInput = document.getElementById(`role-input-${role}`);
+      if (targetInput) targetInput.checked = true;
+
+      // Update Form Credentials & Button
+      const creds = DEMO_CREDENTIALS[role];
+      if (creds) {
+        document.getElementById("login-email").value = creds.email;
+        document.getElementById("login-password").value = creds.password;
+        document.getElementById("login-submit-btn").innerText = creds.btnLabel;
+      }
+    }
+
+    function quickLogin(role) {
+      selectRole(role);
+      const creds = DEMO_CREDENTIALS[role];
+      
+      const userObj = {
+        role: role,
+        name: creds.name,
+        email: creds.email,
+        avatar: creds.avatar
+      };
+
+      Storage.setUser(userObj);
+      showToast(`Quick logged in as ${userObj.name}`, "success");
+
+      setTimeout(() => {
+        window.location.href = creds.destination;
+      }, 400);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderHeader("login");
+
+      // Set initial donor role
+      selectRole("donor");
+
+      document.getElementById("login-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("login-email").value;
+        const creds = DEMO_CREDENTIALS[currentSelectedRole] || DEMO_CREDENTIALS.donor;
+
+        const userObj = {
+          role: currentSelectedRole,
+          email: email,
+          name: creds.name,
+          avatar: creds.avatar
+        };
+
+        Storage.setUser(userObj);
+        showToast(`Signed in successfully as ${userObj.name}!`, "success");
+
+        setTimeout(() => {
+          window.location.href = creds.destination;
+        }, 500);
+      });
+    });
+  </script>
+
+
+<span id="PING_CONTENT_PUSH_NOTIFICATION" style="display: none;"></span><span id="PING_IFRAME_FORM_DETECTION" style="display: none;"></span></body></html>
